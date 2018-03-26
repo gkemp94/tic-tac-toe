@@ -11,22 +11,24 @@ interface MoveState {
   squares: string[];
 }
 
+interface BoardProps {
+  squares: string[];
+  onClick: Function;
+}
+
 interface GameState {
   history: MoveState[];
   xIsNext: boolean;
   stepNumber: number;
 }
 
-interface BoardProps {
-  squares: string[];
-  onClick: Function;
-}
+interface GameProps { }
 
 function Square(props: SquareProps) {
     return (
-      <button className="square" onClick={() => props.onClick()}>
+      <span className="square" onClick={() => props.onClick()}>
         {props.value}
-      </button>
+      </span>
     );
 }
 
@@ -65,10 +67,6 @@ class Board extends React.Component<BoardProps> {
       </div>
     );
   }
-}
-
-interface GameProps {
-
 }
 
 class Game extends React.Component<GameProps, GameState> {
@@ -124,8 +122,12 @@ class Game extends React.Component<GameProps, GameState> {
         'Go to move #' + move :
         'Go to game start';
       return (
-        <li key={move}>
-          <button onClick={() => this.jumpTo(move)}>{desc}</button>
+        <li 
+          key={move} 
+          className={move === this.state.stepNumber ? 'move active' : 'move'}
+          onClick={() => this.jumpTo(move)}
+        >
+          {desc}
         </li>
       );
     });
@@ -137,11 +139,12 @@ class Game extends React.Component<GameProps, GameState> {
             squares={current.squares}
             onClick={(i: number) => this.handleClick(i)}
           />
-
         </div>
         <div className="game-info">
           <div>{status}</div>
-          <ol>{moves}</ol>
+          <ol className="moves">
+            {moves}
+          </ol>
         </div>
       </div>
     );
