@@ -64,6 +64,8 @@ ol, ul {
 
 .move:hover {
   cursor: pointer;
+  background-color: rgba(0,0,0,.15);
+  color: black;
 }
 
 .move:last-child {
